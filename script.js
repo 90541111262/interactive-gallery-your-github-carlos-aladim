@@ -1,89 +1,55 @@
 // Array de objetos para armazenar os dados das imagens
 const images = [
-    { thumb: 'images/image1_thumb.jpg', hd: 'images/image1_hd.jpg', caption: 'Image 1 Description' },
-    { thumb: 'images/image2_thumb.jpg', hd: 'images/image2_hd.jpg', caption: 'Image 2 Description' },
-    { thumb: 'images/image3_thumb.jpg', hd: 'images/image3_hd.jpg', caption: 'Image 3 Description' },
-    { thumb: 'images/image4_thumb.jpg', hd: 'images/image4_hd.jpg', caption: 'Image 4 Description' },
-    { thumb: 'images/image5_thumb.jpg', hd: 'images/image5_hd.jpg', caption: 'Image 5 Description' },
-    { thumb: 'images/image6_thumb.jpg', hd: 'images/image6_hd.jpg', caption: 'Image 6 Description' },
-    { thumb: 'images/image7_thumb.jpg', hd: 'images/image7_hd.jpg', caption: 'Image 7 Description' },
-    { thumb: 'images/image8_thumb.jpg', hd: 'images/image8_hd.jpg', caption: 'Image 8 Description' },
-    { thumb: 'images/image9_thumb.jpg', hd: 'images/image9_hd.jpg', caption: 'Image 9 Description' },
-    { thumb: 'images/image10_thumb.jpg', hd: 'images/image10_hd.jpg', caption: 'Image 10 Description' },
-    { thumb: 'images/image11_thumb.jpg', hd: 'images/image11_hd.jpg', caption: 'Image 11 Description' },
-    { thumb: 'images/image12_thumb.jpg', hd: 'images/image12_hd.jpg', caption: 'Image 12 Description' },
+    { thumb: 'image1_thumb.jpg', hd: 'image1_hd.jpg', caption: 'Image 1 Description' },
+    { thumb: 'image2_thumb.jpg', hd: 'image2_hd.jpg', caption: 'Image 2 Description' },
+    { thumb: 'image3_thumb.jpg', hd: 'image3_hd.jpg', caption: 'Image 3 Description' },
+    { thumb: 'image4_thumb.jpg', hd: 'image4_hd.jpg', caption: 'Image 4 Description' },
+    { thumb: 'image5_thumb.jpg', hd: 'image5_hd.jpg', caption: 'Image 5 Description' },
+    { thumb: 'image6_thumb.jpg', hd: 'image6_hd.jpg', caption: 'Image 6 Description' },
+    { thumb: 'image7_thumb.jpg', hd: 'image7_hd.jpg', caption: 'Image 7 Description' },
+    { thumb: 'image8_thumb.jpg', hd: 'image8_hd.jpg', caption: 'Image 8 Description' },
+    { thumb: 'image9_thumb.jpg', hd: 'image9_hd.jpg', caption: 'Image 9 Description' },
+    { thumb: 'image10_thumb.jpg', hd: 'image10_hd.jpg', caption: 'Image 10 Description' },
+    { thumb: 'image11_thumb.jpg', hd: 'image11_hd.jpg', caption: 'Image 11 Description' },
+    { thumb: 'image12_thumb.jpg', hd: 'image12_hd.jpg', caption: 'Image 12 Description' },
 ];
 
-// Seleciona a galeria e o overlay
+// Elementos do DOM
 const gallery = document.getElementById('gallery');
 const overlay = document.getElementById('overlay');
 const overlayImage = document.getElementById('overlayImage');
 const overlayCaption = document.getElementById('overlayCaption');
+const backButton = document.getElementById('backButton');
 
-// Função para criar a galeria dinamicamente
-function createGallery() {
-    images.forEach((image, index) => {
-        const img = document.createElement('img');
-        img.src = image.thumb;
-        img.alt = image.caption;
-        img.dataset.index = index;
-        img.classList.add('gallery-item');
+// Adicionar imagens à galeria
+images.forEach(image => {
+    const imgElement = document.createElement('img');
+    imgElement.src = `images/${image.thumb}`;
+    imgElement.alt = image.caption;
+    imgElement.classList.add('gallery-image');
 
-        const galleryItem = document.createElement('div');
-        galleryItem.classList.add('gallery-item');
-        galleryItem.appendChild(img);
-
-        gallery.appendChild(galleryItem);
+    imgElement.addEventListener('click', () => {
+        showOverlay(`images/${image.hd}`, image.caption);
     });
-}
 
-// Função para mostrar a imagem HD e a legenda
-function showOverlay(index) {
-    const image = images[index];
-    overlayImage.src = image.hd;
-    overlayCaption.textContent = image.caption;
+    gallery.appendChild(imgElement);
+});
+
+// Exibir overlay com imagem ampliada
+function showOverlay(src, caption) {
+    overlayImage.src = src;
+    overlayCaption.textContent = caption;
     overlay.classList.remove('hidden');
 }
 
-// Função para esconder a imagem HD e a legenda
-function hideOverlay() {
-    overlay.classList.add('hidden');
-    overlayImage.src = '';
-    overlayCaption.textContent = '';
-}
-
-// Adiciona os event listeners
-gallery.addEventListener('click', (event) => {
-    if (event.target.tagName === 'IMG') {
-        const index = event.target.dataset.index;
-        showOverlay(index);
-    }
-});
-
-overlay.addEventListener('click', (event) => {
-    if (event.target.tagName === 'IMG' || event.target.tagName === 'P') {
-        hideOverlay();
-    }
-});
-
-// Inicializa a galeria
-createGallery
-
-// Botao
-
-const backButton = document.getElementById('backButton');
-
+// Event listener para o botão "Back"
 backButton.addEventListener('click', () => {
     hideOverlay();
 });
 
-// Função para esconder a imagem HD e a legenda
+// Esconder overlay e limpar dados da imagem ampliada
 function hideOverlay() {
     overlay.classList.add('hidden');
     overlayImage.src = '';
     overlayCaption.textContent = '';
 }
-
-// Inicializa a galeria
-createGallery();
-
