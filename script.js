@@ -14,6 +14,81 @@ const images = [
     { thumb: 'image12_thumb.jpg', hd: 'image12_hd.jpg', caption: 'Image 12 Description' },
 ];
 
+// Seleciona a galeria e o overlay
+const gallery = document.getElementById('gallery');
+const overlay = document.getElementById('overlay');
+const overlayImage = document.getElementById('overlayImage');
+const overlayCaption = document.getElementById('overlayCaption');
+
+// Função para criar a galeria dinamicamente
+function createGallery() {
+    images.forEach((image, index) => {
+        const img = document.createElement('img');
+        img.src = image.thumb;
+        img.alt = image.caption;
+        img.dataset.index = index;
+        img.classList.add('gallery-item');
+
+        const galleryItem = document.createElement('div');
+        galleryItem.classList.add('gallery-item');
+        galleryItem.appendChild(img);
+
+        gallery.appendChild(galleryItem);
+    });
+}
+
+// Função para mostrar a imagem HD e a legenda
+function showOverlay(index) {
+    const image = images[index];
+    overlayImage.src = image.hd;
+    overlayCaption.textContent = image.caption;
+    overlay.classList.remove('hidden');
+}
+
+// Função para esconder a imagem HD e a legenda
+function hideOverlay() {
+    overlay.classList.add('hidden');
+    overlayImage.src = '';
+    overlayCaption.textContent = '';
+}
+
+// Adiciona os event listeners
+gallery.addEventListener('click', (event) => {
+    if (event.target.tagName === 'IMG') {
+        const index = event.target.dataset.index;
+        showOverlay(index);
+    }
+});
+
+overlay.addEventListener('click', (event) => {
+    if (event.target.tagName === 'IMG' || event.target.tagName === 'P') {
+        hideOverlay();
+    }
+});
+
+// Inicializa a galeria
+createGallery
+
+// Botao
+
+const backButton = document.getElementById('backButton');
+
+backButton.addEventListener('click', () => {
+    hideOverlay();
+});
+
+// Função para esconder a imagem HD e a legenda
+function hideOverlay() {
+    overlay.classList.add('hidden');
+    overlayImage.src = '';
+    overlayCaption.textContent = '';
+}
+
+// Inicializa a galeria
+createGallery();
+
+
+
 // Elementos do DOM
 const gallery = document.getElementById('gallery');
 const overlay = document.getElementById('overlay');
